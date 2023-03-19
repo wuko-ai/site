@@ -1,0 +1,223 @@
+$font-color: white;
+$textarea-bg-color: #343642;
+$body-bg-color: #272932;
+/* $body-bg-color: #8B4513; */
+$primary-color: white;
+$loader-size: 10rem;
+$shadow-color: rgba(255, 255, 255, 0.75);
+$loader-ani-time: 4.5s;
+
+body {
+    font-family: Arial, sans-serif;
+    color: $font-color;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    // max-width: $loader-size * 1.5; // You can adjust this value to control the wrapper size
+}
+
+
+.loader-0 {
+    font-size: $loader-size * 0.5; // Scale font-size proportionally
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.loader-1,
+.loader-11 {
+    font-size: $loader-size * 0.5; // Scale font-size proportionally
+    color: rgba(255, 255, 255, 0.5);
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    // &:after {
+    //   top: -5px;
+    // }
+}
+
+.loader-1 {
+    animation-name: zoom-out;
+}
+
+.loader-11 {
+    animation-name: zoom-in;
+}
+
+@keyframes zoom-out {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes zoom-in {
+    0% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.loader-0,
+.loader-1,
+.loader-11,
+.loader-2,
+.loader-3,
+.loader-4,
+.loader-5,
+.loader-6,
+.loader-7,
+.loader-8,
+.loader-9,
+.loader-10 {
+    // position: absolute;
+    // right: 24px;
+    // bottom: 18px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // width: 100%;
+    // max-width: $loader-size;
+    // margin-top: $loader-size * 0.9; // Scale margin-top proportionally
+    // margin-bottom: $loader-size * 0.3; // Scale margin-bottom proportionally
+    // margin-left: auto;
+    // margin-right: auto;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    // transform: translate(-50%, -50%);
+    transform: translate(-50%, calc(-50% - #{$loader-size} / 2));
+    width: 90%;
+    // display: flex; // Add this line
+    // align-items: center; // Add this line
+    // justify-content: center; // Add this line
+
+    &:after {
+        content: "\609f";
+        position: absolute;
+        font-family: 'wu';
+    }
+}
+
+@media (max-width: 768px) {
+    .loader-0,
+    .loader-1,
+    .loader-11,
+    .loader-2,
+    .loader-3,
+    .loader-4,
+    .loader-5,
+    .loader-6,
+    .loader-7,
+    .loader-8,
+    .loader-9,
+    .loader-10 {
+        width: 150%;
+    }
+}
+
+@mixin loader($pct) {
+    $circle-width: calc(1 - $pct / 10) * $loader-size * 0.3; // Scale circle-width proportionally
+
+    .loader-#{$pct + 1} {
+
+        // Increase loader number by 1
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            animation: pulsOut#{$pct} $loader-ani-time ease-out infinite;
+            filter: drop-shadow(0 0 ($loader-size * 0.1) $shadow-color); // Use the $shadow-color variable
+        }
+
+        &:before {
+            animation-name: pulsIn#{$pct};
+        }
+
+        &:after {
+            width: calc(100%);
+            padding-bottom: calc(100%);
+            box-shadow: 0 0 0 0 $primary-color; // Use the $primary-color variable
+        }
+
+        @keyframes pulsOut#{$pct} {
+            0% {
+                box-shadow: 0 0 0 0 $primary-color; // Use the $primary-color variable
+                opacity: 0;
+            }
+
+            50% {
+                box-shadow: 0 0 0 #{$circle-width} $primary-color; // Use the $primary-color variable
+                opacity: 1;
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 $primary-color; // Use the $primary-color variable
+                opacity: 0;
+            }
+        }
+    }
+}
+
+@for $i from 1 through 9 {
+    @include loader($i);
+}
+
+// Mobile styles
+// @media (max-width: 767px) {
+//     body {
+//         flex-direction: column-reverse;
+//     }
+
+//     .loader-0,
+//     .loader-1,
+//     .loader-11,
+//     .loader-2,
+//     .loader-3,
+//     .loader-4,
+//     .loader-5,
+//     .loader-6,
+//     .loader-7,
+//     .loader-8,
+//     .loader-9,
+//     .loader-10 {
+//         position: relative;
+//         top: auto;
+//         left: auto;
+//         transform: none;
+//     }
+// }
